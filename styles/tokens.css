@@ -1,0 +1,81 @@
+/* ==========================================================================
+   LabelGrid — Design System Tokens
+   Precision AI/ML developer workbench aesthetic with Dark & Light themes
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --font-sans: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Default: Dark Studio Theme */
+  --bg: #0b0d12;
+  --bg-elevated: #12161f;
+  --bg-subtle: #181e29;
+  --bg-canvas: #090b10;
+  --ink: #edf1f7;
+  --ink-secondary: #aeb8c7;
+  --ink-muted: #768296;
+  --border: rgba(237, 241, 247, 0.11);
+  --border-strong: rgba(237, 241, 247, 0.22);
+
+  /* Brand & Semantic Accents */
+  --accent: #4f7cff;
+  --accent-hover: #678eff;
+  --accent-soft: rgba(79, 124, 255, 0.16);
+  --accent-ink: #ffffff;
+  --emerald: #22c55e;
+  --emerald-soft: rgba(34, 197, 94, 0.15);
+  --amber: #f59e0b;
+  --rose: #f43f5e;
+  --cyan: #06b6d4;
+  --violet: #a855f7;
+
+  /* Overlays */
+  --header-bg: rgba(11, 13, 18, 0.85);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.44);
+  --shadow-lg: 0 26px 64px rgba(0, 0, 0, 0.6);
+
+  /* Layout */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --container-max: 1260px;
+  --header-height: 68px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 160ms var(--ease);
+  --base: 260ms var(--ease);
+}
+
+[data-theme="light"] {
+  --bg: #f6f7fa;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #ebedf3;
+  --bg-canvas: #11151e;
+  --ink: #11141c;
+  --ink-secondary: #434c5e;
+  --ink-muted: #697489;
+  --border: rgba(17, 20, 28, 0.11);
+  --border-strong: rgba(17, 20, 28, 0.22);
+
+  --accent: #2f5cf5;
+  --accent-hover: #1e4be0;
+  --accent-soft: rgba(47, 92, 245, 0.12);
+  --accent-ink: #ffffff;
+  --emerald: #15803d;
+  --emerald-soft: rgba(21, 128, 61, 0.12);
+  --amber: #d97706;
+  --rose: #e11d48;
+  --cyan: #0891b2;
+  --violet: #7e22ce;
+
+  --header-bg: rgba(246, 247, 250, 0.88);
+  --shadow-sm: 0 2px 8px rgba(17, 20, 28, 0.05);
+  --shadow-md: 0 12px 30px rgba(17, 20, 28, 0.09);
+  --shadow-lg: 0 24px 56px rgba(17, 20, 28, 0.14);
+}
