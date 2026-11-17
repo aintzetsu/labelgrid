@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabelGrid — Multi-Modal AI Data Annotation Workbench</title>
+  <meta name="description" content="LabelGrid is an interactive AI data annotation workbench for computer vision bounding boxes, NER text spans, consensus QA, and COCO/YOLO/JSONL exports." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d12'/%3E%3Crect x='7' y='7' width='18' height='18' rx='3' fill='none' stroke='%234f7cff' stroke-width='3'/%3E%3Ccircle cx='25' cy='7' r='3' fill='%2322c55e'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/workbench.css" />
+  <script defer src="js/data.js"></script>
+  <script defer src="js/vision.js"></script>
+  <script defer src="js/nlp.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="sr-only" href="#main-content">Skip to main content</a>
+
+  <!-- Sticky Navigation -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#top" class="brand" aria-label="LabelGrid Home">
+        <span class="brand__logo" aria-hidden="true"></span>
+        <span>LABELGRID</span>
+        <span class="brand__ver">STUDIO v2.4</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#workbench">Workbench</a>
+        <a href="#pipeline">QA Pipeline</a>
+        <a href="#modalities">Modalities</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button
+          id="theme-toggle"
+          type="button"
+          class="icon-btn mono"
+          aria-label="Switch to light theme"
+          aria-pressed="false"
+          title="Toggle light/dark theme"
+        >
+          <span id="theme-icon" style="font-size: 0.7rem; font-weight: 600;">SUN</span>
+        </button>
+
+        <a href="#workbench" class="btn btn--primary btn--sm">Launch Studio</a>
+
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          class="icon-btn mobile-menu-btn"
+          aria-label="Toggle mobile navigation"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="7" x2="21" y2="7" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="17" x2="21" y2="17" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Navigation">
+      <div class="container mobile-nav__links">
+        <a href="#workbench">Workbench</a>
+        <a href="#pipeline">QA Pipeline</a>
+        <a href="#modalities">Modalities</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section id="top" class="hero">
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow">
+            <span class="eyebrow__dot" aria-hidden="true"></span>
+            Multi-Modal Ground Truth Infrastructure
+          </span>
+          <h1 class="hero__title">
+            Ship cleaner training datasets at <span>compiler speed</span>.
+          </h1>
+          <p class="hero__lead">
+            LabelGrid unifies bounding-box vision tooling, NER span tagging, and consensus QA routing in a keyboard-first browser workbench—exporting directly to COCO, YOLO, and JSONL.
+          </p>
+          <div class="hero__actions">
+            <a href="#workbench" class="btn btn--primary">Try Interactive Workbench</a>
+            <a href="#pipeline" class="btn btn--secondary">Explore QA Pipeline</a>
+          </div>
+        </div>
+
+        <div class="hero__codecard" aria-label="Sample JSONL annotation payload">
+          <div class="codecard__bar">
+            <span class="codecard__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>stream_export.jsonl</span>
+          </div>
+          <pre class="codecard__pre"><code>{
+  <span class="tok-k">"dataset"</span>: <span class="tok-s">"urban_perception_v4"</span>,
+  <span class="tok-k">"sample_id"</span>: <span class="tok-s">"street_cam_042.png"</span>,
+  <span class="tok-k">"qa_consensus"</span>: <span class="tok-n">0.984</span>,
+  <span class="tok-k">"annotations"</span>: [
+    { <span class="tok-k">"label"</span>: <span class="tok-s">"Vehicle"</span>, <span class="tok-k">"bbox"</span>: [<span class="tok-n">112, 290, 196, 98</span>] },
+    { <span class="tok-k">"label"</span>: <span class="tok-s">"Pedestrian"</span>, <span class="tok-k">"bbox"</span>: [<span class="tok-n">374, 214, 54, 108</span>] }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Telemetry Bar -->
+    <div class="telemetry-bar" aria-label="Platform Benchmarks">
+      <div class="container telemetry-bar__grid">
+        <div class="telemetry-item">
+          <span class="telemetry-item__k">Canvas Engine</span>
+          <span class="telemetry-item__v mono">60fps Pointer Events</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-item__k">Consensus SLA</span>
+          <span class="telemetry-item__v mono">99.2% Inter-Annotator</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-item__k">Export Schemas</span>
+          <span class="telemetry-item__v mono">COCO · YOLO · JSONL</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-item__k">Deployment</span>
+          <span class="telemetry-item__v mono">Cloud or VPC Air-Gap</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Interactive Annotation Workbench -->
+    <section id="workbench" class="section">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <span class="eyebrow">01 // Live Browser Studio</span>
+            <h2 class="section__title">Interactive Annotation Workbench</h2>
+          </div>
+          <p class="section__desc">
+            Draw bounding boxes on synthetic vision frames or tag entity spans in text documents—inspect coordinates and download real dataset files below.
+          </p>
+        </div>
+
+        <div class="workbench-shell">
+          <!-- Mode & Sample Switcher -->
+          <div class="workbench-topbar">
+            <div class="mode-tabs" role="group" aria-label="Annotation modality">
+              <button type="button" class="mode-tab is-active" data-mode="vision" aria-pressed="true">Vision · Bounding Box</button>
+              <button type="button" class="mode-tab" data-mode="nlp" aria-pressed="false">Text · NER Spans</button>
+            </div>
+
+            <div id="dataset-pills" class="dataset-pills" role="group" aria-label="Sample dataset items"></div>
+          </div>
+
+          <!-- Class Palette & Actions -->
+          <div class="workbench-toolbar">
+            <div id="class-palette" class="class-palette" role="group" aria-label="Label class selector"></div>
+
+            <div class="tool-actions">
+              <button id="wb-undo" type="button" class="btn btn--ghost btn--xs" title="Ctrl+Z">Undo</button>
+              <button id="wb-labels-toggle" type="button" class="btn btn--ghost btn--xs" aria-pressed="true">Hide Labels</button>
+              <button id="wb-clear" type="button" class="btn btn--ghost btn--xs">Clear</button>
+              <button id="wb-reset" type="button" class="btn btn--secondary btn--xs">Reset Starter</button>
+            </div>
+          </div>
+
+          <!-- Canvas / NER Stage + Inspector -->
+          <div class="workbench-body">
+            <div class="workbench-stage">
+              <div id="vision-stage">
+                <div class="stage-hint" style="margin-bottom: 0.6rem;">
+                  <span id="vision-file-name">street_cam_042.png · 960×540</span>
+                  <span>Drag to draw · Click box to move · Delete key removes</span>
+                </div>
+                <div class="canvas-frame">
+                  <canvas id="vision-canvas" aria-label="Interactive bounding box annotation canvas"></canvas>
+                </div>
+              </div>
+
+              <div id="nlp-stage" class="nlp-stage" hidden>
+                <div class="nlp-doc-meta">
+                  <span id="nlp-doc-name">log_edge_2026_10.txt</span>
+                  <span>Click a word or drag across words to tag active entity</span>
+                </div>
+                <div id="nlp-tokens" class="nlp-tokens"></div>
+              </div>
+            </div>
+
+            <aside class="workbench-inspector" aria-label="Annotation inspector and export">
+              <div class="inspector-section">
+                <div class="inspector-head">
+                  <h3>Annotations</h3>
+                  <span id="inspector-count" class="badge badge--accent">0</span>
+                </div>
+                <div id="annotation-list" class="annotation-list"></div>
+              </div>
+
+              <div class="inspector-section inspector-section--grow">
+                <div class="inspector-head">
+                  <h3>Live Export</h3>
+                  <div id="export-tabs" class="export-tabs" role="group" aria-label="Export schema format"></div>
+                </div>
+                <pre id="export-output" class="export-pre"></pre>
+                <div class="export-actions">
+                  <button id="copy-export-btn" type="button" class="btn btn--secondary btn--sm" style="flex: 1;">Copy Output</button>
+                  <button id="download-export-btn" type="button" class="btn btn--primary btn--sm" style="flex: 1;">Download File</button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QA & Consensus Pipeline -->
+    <section id="pipeline" class="section">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <span class="eyebrow">02 // Automated Quality Assurance</span>
+            <h2 class="section__title">Route Low-Confidence Frames to Experts</h2>
+          </div>
+          <p class="section__desc">
+            Combine pre-labeling foundation models with multi-annotator consensus scoring so human reviewers only touch ambiguous edge cases.
+          </p>
+        </div>
+
+        <div class="pipeline-layout">
+          <div class="qa-simulator">
+            <div>
+              <span class="eyebrow">Interactive Routing Simulator</span>
+              <h3 style="margin: 0.45rem 0 0.4rem; font-size: 1.3rem;">Model Pre-Label Confidence Gate</h3>
+              <p style="margin: 0; color: var(--ink-secondary); font-size: 0.92rem;">
+                Adjust the confidence threshold to see how automated consensus triage balances human review load against labeling throughput.
+              </p>
+            </div>
+
+            <div class="qa-slider-wrap">
+              <div class="qa-slider-head">
+                <label for="qa-threshold">Auto-Accept Confidence Threshold</label>
+                <span id="qa-threshold-val" class="mono badge badge--accent">0.85</span>
+              </div>
+              <input id="qa-threshold" class="qa-range" type="range" min="0.65" max="0.98" step="0.01" value="0.85" />
+            </div>
+
+            <div class="qa-stats-grid">
+              <div class="qa-stat">
+                <span id="qa-auto-pct" class="qa-stat__val" style="color: var(--emerald);">43%</span>
+                <span class="qa-stat__lbl">Auto-Verified</span>
+              </div>
+              <div class="qa-stat">
+                <span id="qa-review-pct" class="qa-stat__val" style="color: var(--amber);">57%</span>
+                <span class="qa-stat__lbl">Human QA Queue</span>
+              </div>
+              <div class="qa-stat">
+                <span id="qa-throughput" class="qa-stat__val">780/hr</span>
+                <span class="qa-stat__lbl">Net Throughput</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-cards">
+            <div class="pipeline-card">
+              <div>
+                <h3>1. Zero-Shot Model Pre-Labeling</h3>
+                <p>Warm-start every incoming batch with candidate bounding boxes and span suggestions to cut manual clicks by up to 68%.</p>
+              </div>
+              <span class="badge badge--accent">Pre-Pass</span>
+            </div>
+            <div class="pipeline-card">
+              <div>
+                <h3>2. IoU &amp; Cohen's Kappa Consensus</h3>
+                <p>Score overlapping annotator submissions automatically using spatial IoU thresholds and token-level agreement metrics.</p>
+              </div>
+              <span class="badge badge--emerald">99.2% QA</span>
+            </div>
+            <div class="pipeline-card">
+              <div>
+                <h3>3. Versioned Dataset Snapshots</h3>
+                <p>Freeze immutable dataset releases with SHA-verified manifests ready for PyTorch, Ultralytics YOLO, or HuggingFace Datasets.</p>
+              </div>
+              <span class="badge">CLI + SDK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modalities -->
+    <section id="modalities" class="section">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <span class="eyebrow">03 // Supported Modalities</span>
+            <h2 class="section__title">Built for Vision, Language &amp; RLHF</h2>
+          </div>
+          <p class="section__desc">
+            Consistent keyboard shortcuts, audit trails, and strict schema validation across every AI data pipeline.
+          </p>
+        </div>
+
+        <div class="modalities-grid">
+          <article class="feature-card">
+            <span class="eyebrow">Computer Vision</span>
+            <h3>2D Boxes, Polygons &amp; Keypoints</h3>
+            <p>Sub-pixel canvas zoom, magnetic class palettes, occlusion flags, and instant bounding-box coordinate validation.</p>
+            <div class="tag-row">
+              <span class="badge">COCO JSON</span>
+              <span class="badge">YOLO v8</span>
+              <span class="badge">Pascal VOC</span>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <span class="eyebrow">Natural Language</span>
+            <h3>NER Spans &amp; Relation Graphs</h3>
+            <p>Character-offset exact span selection across telemetry logs, medical records, legal contracts, and multi-turn transcripts.</p>
+            <div class="tag-row">
+              <span class="badge">JSONL</span>
+              <span class="badge">CoNLL-2003</span>
+              <span class="badge">spaCy</span>
+            </div>
+          </article>
+
+          <article class="feature-card">
+            <span class="eyebrow">LLM Evaluation</span>
+            <h3>Preference Ranking &amp; Safety</h3>
+            <p>Side-by-side rubric grading, hallucination tagging, and DPO/RLHF preference pairs with blind reviewer routing.</p>
+            <div class="tag-row">
+              <span class="badge">DPO Pairs</span>
+              <span class="badge">Parquet</span>
+              <span class="badge">OpenTelemetry</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <span class="eyebrow">04 // Transparent Licensing</span>
+            <h2 class="section__title">Start Labeling Free. Scale With Your Team.</h2>
+          </div>
+
+          <div class="billing-toggle" role="group" aria-label="Billing interval">
+            <button type="button" class="is-active" data-billing="monthly" aria-pressed="true">Monthly</button>
+            <button type="button" data-billing="annual" aria-pressed="false">Annual (-20%)</button>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <span class="badge" style="align-self: flex-start;">Community</span>
+            <h3>Starter</h3>
+            <div class="price-card__amount">$0 <span class="price-card__period">/ forever</span></div>
+            <p>Solo researchers and open-source ML prototypes.</p>
+            <ul class="price-list">
+              <li>+ Up to 5,000 labeled frames/month</li>
+              <li>+ Vision &amp; Text NER workbenches</li>
+              <li>+ COCO, YOLO, &amp; JSONL exports</li>
+            </ul>
+            <a href="#workbench" class="btn btn--secondary btn--full">Open Browser Studio</a>
+          </article>
+
+          <article class="price-card price-card--featured">
+            <span class="badge badge--accent" style="align-self: flex-start;">Most Popular</span>
+            <h3>Studio Team</h3>
+            <div class="price-card__amount"><span id="studio-price">$49</span> <span id="studio-note" class="price-card__period">per seat / month · cancel anytime</span></div>
+            <p>Collaborative annotation queues, consensus QA, and SDK sync.</p>
+            <ul class="price-list">
+              <li>+ Unlimited datasets &amp; custom ontologies</li>
+              <li>+ Automated IoU &amp; Kappa QA routing</li>
+              <li>+ Python SDK &amp; S3/GCS direct buckets</li>
+            </ul>
+            <a href="#waitlist" class="btn btn--primary btn--full">Request Sandbox Key</a>
+          </article>
+
+          <article class="price-card">
+            <span class="badge" style="align-self: flex-start;">Self-Hosted</span>
+            <h3>Enterprise</h3>
+            <div class="price-card__amount">Custom</div>
+            <p>Regulated healthcare, autonomous, and defense teams.</p>
+            <ul class="price-list">
+              <li>+ VPC / air-gapped Docker deployment</li>
+              <li>+ SAML SSO &amp; fine-grained audit logs</li>
+              <li>+ Dedicated foundation pre-labeling GPU</li>
+            </ul>
+            <a href="#waitlist" class="btn btn--secondary btn--full">Book Architecture Review</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container faq-layout">
+        <div>
+          <span class="eyebrow">05 // Technical FAQ</span>
+          <h2 class="section__title">Architecture &amp; Export Questions</h2>
+          <p class="section__desc" style="margin-top: 0.85rem;">
+            Built so ML engineers never fight proprietary formats or locked-in annotation databases.
+          </p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-1">
+              <span>Which coordinate format does YOLO export use?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-1" class="faq-panel">
+              <div class="faq-panel__inner">
+                <p>
+                  Every bounding box is normalized to [0, 1] relative to image dimensions using standard Ultralytics syntax: class_id x_center y_center width height.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-2">
+              <span>Can we keep raw training images inside our own S3 or GCS bucket?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-2" class="faq-panel">
+              <div class="faq-panel__inner">
+                <p>
+                  Yes. LabelGrid uses short-lived signed URLs so raw imagery and sensitive documents stream straight from your cloud storage without duplicating bytes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-3">
+              <span>How are overlapping NER spans handled during text tagging?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-3" class="faq-panel">
+              <div class="faq-panel__inner">
+                <p>
+                  In standard flat NER mode, tagging a span replaces conflicting overlaps cleanly and preserves exact UTF-16 character offsets ready for JSONL or spaCy training.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section id="waitlist" class="section">
+      <div class="container">
+        <div class="waitlist-box">
+          <div>
+            <span class="eyebrow">API &amp; SDK Access</span>
+            <h2>Get a LabelGrid sandbox workspace key.</h2>
+            <p>Receive Python CLI instructions and sample pre-labeled datasets to test in your own training pipeline.</p>
+          </div>
+
+          <form id="waitlist-form" novalidate>
+            <div class="waitlist-form__row">
+              <label for="waitlist-email" class="sr-only">Work email</label>
+              <input id="waitlist-email" type="email" class="input" placeholder="ml-team@company.ai" autocomplete="email" required />
+              <button type="submit" class="btn btn--primary">Request Access</button>
+            </div>
+            <p id="waitlist-feedback" class="form-feedback" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>&copy; 2026 LabelGrid Studio Concept · Built as an interactive AI developer-tool portfolio showcase.</span>
+      <span class="mono">HTML5 Canvas · Pointer Events · Vanilla JS</span>
+    </div>
+  </footer>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+</body>
+</html>
